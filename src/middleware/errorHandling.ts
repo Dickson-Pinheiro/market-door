@@ -9,11 +9,16 @@ const acceptedErrors = {
     forbiddenError(err: ErrorResponse, res: Response){
         return res.status(403).send(err)
     },
+
     internalServerError(_err: ErrorResponse, res: Response){
         return res.status(500).send({
             name: 'internalServerError',
             message: 'internal server error'
         })
+    },
+    
+    unauthorizedError(err: ErrorResponse, res: Response){
+        return res.status(401).send(err)
     }
 }
 

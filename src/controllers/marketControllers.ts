@@ -10,3 +10,13 @@ export async function createMarket(req: Request, res: Response, next: NextFuncti
         next(error)
     }
 }
+
+export async function signinMarket(req: Request, res: Response, next: NextFunction){
+    const {email, password} = req.body as Record<string, string>
+    try {
+        const userAccess = await marketService.signinMarket(email, password)
+        res.send(userAccess)
+    } catch (error) {
+        next(error)   
+    }
+}

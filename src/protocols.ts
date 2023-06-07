@@ -1,10 +1,12 @@
 export enum AllowedError {
     "notFoundError" = "notFoundError",
     "forbiddenError" = "forbiddenError",
-    "internalServerError" = "internalServerError"
+    "internalServerError" = "internalServerError",
+    "unauthorizedError" = "unauthorizedError",
+    "badRequestError" = "badRequestError"
 }
 
 export type ErrorResponse = {
     name: AllowedError
-    message: string
+    message: string[]
 }
