@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model adress {
+  id            Int       @id(map: "adress_pk") @default(autoincrement())
+  cep           String    @db.VarChar
+  street        String    @db.VarChar
+  city          String    @db.VarChar
+  state         String    @db.VarChar
+  number        String    @db.VarChar
+  neighborhood  String    @db.VarChar
+  addressDetail String?
+  store_id      Int
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+  updated_at    DateTime? @default(now()) @db.Timestamp(6)
+  store         store     @relation(fields: [store_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "adress_fk0")
+}
+
+model category {
+  id       Int       @id(map: "category_pk") @default(autoincrement())
+  category String    @db.VarChar
+  store_id Int?
+  store    store?    @relation(fields: [store_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "category_fk0")
+  product  product[]
+}
+
+model market {
+  id         Int       @id(map: "market_pk") @default(autoincrement())
+  name       String    @db.VarChar
+  email      String    @unique @db.VarChar
+  password   String
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  updated_at DateTime? @default(now()) @db.Timestamp(6)
+  store      store[]
+}
+
+model measurement {
+  id      Int       @id(map: "measurement_pk") @default(autoincrement())
+  name    String    @unique @db.VarChar
+  unit    String    @unique @db.VarChar
+  product product[]
+}
+
+model product {
+  id             Int          @id(map: "product_pk") @default(autoincrement())
+  name           String       @db.VarChar
+  description    String
+  image_url      String
+  by_weight      Boolean      @default(false)
+  active         Boolean      @default(true)
+  price          BigInt
+  category_id    Int
+  store_id       Int
+  measurement_id Int?
+  qty_unit       Int?
+  created_at     DateTime?    @default(now()) @db.Timestamp(6)
+  updated_at     DateTime?    @default(now()) @db.Timestamp(6)
+  category       category     @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_fk0")
+  store          store        @relation(fields: [store_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_fk1")
+  measurement    measurement? @relation(fields: [measurement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_fk2")
+}
+
+model store {
+  id         Int        @id(map: "store_pk") @default(autoincrement())
+  name       String     @db.VarChar
+  username   String     @db.VarChar
+  password   String
+  market_id  Int
+  created_at DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at DateTime?  @default(now()) @db.Timestamp(6)
+  adress     adress[]
+  category   category[]
+  product    product[]
+  market     market     @relation(fields: [market_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "store_fk0")
+}
