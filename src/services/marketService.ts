@@ -1,10 +1,12 @@
+import forbiddenError from "../errors/forbiddenError"
 import marketRepository from "../repository/marketRepository"
 import bcrypt from 'bcrypt'
+
 async function createMarket(email: string, password: string, name: string) {
     try {
         const userWithEmail = await marketRepository.getByEmal(email)
         if (userWithEmail) {
-            throw { name: 'forbidden', message: 'user already exists' }
+            throw forbiddenError('user already exists')
         }
         const hashedPassword = bcrypt.hashSync(password, 10)
         await marketRepository.createMarket(email, hashedPassword, name)
