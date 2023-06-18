@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
+import { AuthenticatedRequest } from "../middleware/authenticateMarket";
 import marketService from "../services/marketService";
+import storeRepository from "repository/storeRepository";
 
 export async function createMarket(req: Request, res: Response, next: NextFunction){
     const {email, password, name} = req.body as Record<string, string>
@@ -15,8 +17,29 @@ export async function signinMarket(req: Request, res: Response, next: NextFuncti
     const {email, password} = req.body as Record<string, string>
     try {
         const userAccess = await marketService.signinMarket(email, password)
-        res.send(userAccess)
+        return res.send(userAccess)
     } catch (error) {
         next(error)   
+    }
+}
+
+export async function createStore(req: AuthenticatedRequest, res: Response, next: NextFunction){
+    const {market_id} = req
+    const { password, name, username} = req.body
+    try {
+        const storeCreated = await marketService.createStore(name, username, password, market_id)
+        return res.status(201).send(storeCreated)
+    } catch (error) {
+        next(error)
+    }
+}
+
+export async function getStores(req: AuthenticatedRequest, res: Response, next: NextFunction){
+    const {market_id} = req
+    try {
+        const stores = await marketService.getStoresByMarketId(market_id)
+        return res.send(stores)
+    } catch (error) {
+        next(error)
     }
 }
