@@ -6,7 +6,7 @@ const marketRouter = Router()
 
 marketRouter
 .post('/signup', createMarket)
-.post('/signin', signinMarket)
+.post('/login', signinMarket)
 .post('/store', AuthenticateMarket, createStore)
 .get('/store', AuthenticateMarket, getStores)
 

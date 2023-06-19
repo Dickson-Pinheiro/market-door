@@ -19,6 +19,10 @@ const acceptedErrors = {
     
     unauthorizedError(err: ErrorResponse, res: Response){
         return res.status(401).send(err)
+    },
+
+    badRequestError(err: ErrorResponse, res: Response){
+        return res.status(400).send(err)
     }
 }
 
