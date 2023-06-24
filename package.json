@@ -1,11 +1,13 @@
 {
-  "name": "localcommerce",
+  "name": "marketdoor",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "prisma:migrate:generate": "npx prisma migrate generate",
+    "prisma:migrate:dev": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",
