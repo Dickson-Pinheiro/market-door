@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthenticatedRequest } from "../middleware/authenticateMarket";
 import marketService from "../services/marketService";
-import storeRepository from "repository/storeRepository";
 
 export async function createMarket(req: Request, res: Response, next: NextFunction){
     const {email, password, name} = req.body as Record<string, string>
