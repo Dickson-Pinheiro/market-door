@@ -54,7 +54,7 @@ model product {
   image_url      String
   by_weight      Boolean      @default(false)
   active         Boolean      @default(true)
-  price          BigInt
+  price          Int
   category_id    Int
   store_id       Int
   measurement_id Int?

@@ -8,12 +8,16 @@
     "dev": "npm run dev:load-envs nodemon src/server.ts",
     "build": "tsc",
     "test": "npm run test:load-envs npx jest",
-    "prisma:migrate:generate": "npx prisma migrate generate",
-    "prisma:migrate:dev": "npx prisma migrate dev",
+    "prisma:migrate:generate": "npm run dev:load-envs npx prisma migrate generate",
+    "prisma:migrate:dev": "npm run dev:load-envs npx prisma migrate dev",
     "test:migration:generate": "npm run test:load-envs prisma migrate dev",
     "test:migration:run": "npm run test:load-envs prisma migrate dev",
     "test:load-envs": "dotenv -e .env.test",
-    "dev:load-envs": "dotenv -e .env.development"
+    "dev:load-envs": "dotenv -e .env.development",
+    "prisma:seed": "npm run dev:load-envs npx prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
