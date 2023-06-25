@@ -61,6 +61,7 @@ model product {
   qty_unit       Int?
   created_at     DateTime?    @default(now()) @db.Timestamp(6)
   updated_at     DateTime?    @default(now()) @db.Timestamp(6)
+  stock           stock[]
   category       category     @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_fk0")
   store          store        @relation(fields: [store_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_fk1")
   measurement    measurement? @relation(fields: [measurement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_fk2")
@@ -77,5 +78,15 @@ model store {
   adress     adress[]
   category   category[]
   product    product[]
+  stock      stock[]
   market     market     @relation(fields: [market_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "store_fk0")
+}
+
+model stock {
+  id         Int @id(map: "stock_pk") @default(autoincrement())
+  quantity   Int
+  store_id   Int
+  product_id Int @unique
+  product    product @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  store store @relation(fields: [store_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

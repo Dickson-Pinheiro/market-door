@@ -1,11 +1,13 @@
 import notFoundError from "../errors/notFoundError"
 import { Product } from "../interfaces/product"
+import stockRepository from "../repository/stockRepository"
 import productRepository from '../repository/productRepository'
 import forbiddenError from "../errors/forbiddenError"
 
 export async function createProduct(product: Product, store_id: number) {
     try {
         const success = await productRepository.createProduct(product, store_id)
+        await stockRepository.createStock(0, success.id, store_id)
         return success
     } catch (error) {
         throw error
