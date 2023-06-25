@@ -12,6 +12,22 @@ export async function createProduct(product: Product, store_id: number) {
     }
 }
 
+async function updateProduct(product: Product, store_id: number, productId: number) {
+    try {
+        const productLocal = await productRepository.getOne(productId)
+        if (!productLocal) {
+            throw notFoundError(['No content'])
+        }
+        if (productLocal.store_id !== store_id) {
+            throw forbiddenError(['forbidden error'])
+        }
+        const success = await productRepository.updateProduct(product, productId)
+        return success
+    } catch (error) {
+        throw error
+    }
+}
+
 async function getProducts(store_id: number) {
     try {
         const products = await productRepository.getProducts(store_id)
@@ -49,9 +65,9 @@ async function activeProduct(store_id: number, productId: number) {
         if (product.store_id !== store_id) {
             throw forbiddenError(['forbidden error'])
         }
-    
+
         const productUpdated = await productRepository.activeProduct(productId)
-        return productUpdated   
+        return productUpdated
     } catch (error) {
         throw error
     }
@@ -68,15 +84,15 @@ async function deactiveProduct(store_id: number, productId: number) {
         if (product.store_id !== store_id) {
             throw forbiddenError(['forbidden error'])
         }
-    
+
         const productUpdated = await productRepository.deactiveProduct(productId)
-        return productUpdated   
+        return productUpdated
     } catch (error) {
         throw error
     }
 }
 
-async function getOne(store_id: number, productId: number){
+async function getOne(store_id: number, productId: number) {
 
     try {
         const product = await productRepository.getOne(productId)
@@ -100,7 +116,8 @@ const productService = {
     deleteProduct,
     activeProduct,
     deactiveProduct,
-    getOne
+    getOne,
+    updateProduct
 }
 
 export default productService

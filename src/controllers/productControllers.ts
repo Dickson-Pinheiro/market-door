@@ -13,6 +13,17 @@ export async function createProduct(req: AuthenticatedRequestStore, res: Respons
     }
 }
 
+export async function updateProduct(req: AuthenticatedRequestStore, res: Response, next: NextFunction) {
+    const { store_id } = req
+    const { productId } = req.params
+    try {
+        const success = await productService.updateProduct(req.body as Product, store_id, Number(productId))
+        res.send(success)
+    } catch (error) {
+        next(error)
+    }
+}
+
 export async function getProducts(req: AuthenticatedRequestStore, res: Response, next: NextFunction) {
     const { store_id } = req
     try {
@@ -23,7 +34,7 @@ export async function getProducts(req: AuthenticatedRequestStore, res: Response,
     }
 }
 
-export async function deleteProduct(req: AuthenticatedRequestStore, res: Response, next: NextFunction){
+export async function deleteProduct(req: AuthenticatedRequestStore, res: Response, next: NextFunction) {
     const { store_id } = req
     const { productId } = req.params
     try {
@@ -34,8 +45,8 @@ export async function deleteProduct(req: AuthenticatedRequestStore, res: Respons
     }
 }
 
-export async function activeProduct(req: AuthenticatedRequestStore, res: Response, next: NextFunction){
-    const {store_id} = req
+export async function activeProduct(req: AuthenticatedRequestStore, res: Response, next: NextFunction) {
+    const { store_id } = req
     const { productId } = req.params
     try {
         const product = await productService.activeProduct(store_id, Number(productId))
@@ -45,8 +56,8 @@ export async function activeProduct(req: AuthenticatedRequestStore, res: Respons
     }
 }
 
-export async function deactiveProduct(req: AuthenticatedRequestStore, res: Response, next: NextFunction){
-    const {store_id} = req
+export async function deactiveProduct(req: AuthenticatedRequestStore, res: Response, next: NextFunction) {
+    const { store_id } = req
     const { productId } = req.params
     try {
         const product = await productService.deactiveProduct(store_id, Number(productId))
@@ -56,8 +67,8 @@ export async function deactiveProduct(req: AuthenticatedRequestStore, res: Respo
     }
 }
 
-export async function getProduct(req: AuthenticatedRequestStore, res: Response, next: NextFunction){
-    const {store_id} = req
+export async function getProduct(req: AuthenticatedRequestStore, res: Response, next: NextFunction) {
+    const { store_id } = req
     const { productId } = req.params
     try {
         const product = await productService.getOne(store_id, Number(productId))

@@ -10,6 +10,17 @@ async function createProduct(product: Product, store_id: number){
     })
 }
 
+async function updateProduct(product: Product, productId: number){
+    return prisma.product.update({
+        where: {
+            id: productId
+        },
+        data: {
+            ...product
+        }
+    })
+}
+
 async function getProducts(store_id: number){
     return prisma.product.findMany({
         where: {
@@ -62,7 +73,8 @@ const productRepository = {
     getOne,
     deleteProduct,
     activeProduct,
-    deactiveProduct
+    deactiveProduct,
+    updateProduct
 }
 
 export default productRepository
