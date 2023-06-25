@@ -15,6 +15,10 @@ async function createStore(name: string, username: string, password: string, mar
             password,
             username,
             market_id
+        },
+        select: {
+            name: true,
+            username: true,
         }
     })
 }
@@ -27,6 +31,14 @@ async function getStoresByMarketId(market_id: number){
         select: {
             name: true,
             username: true,
+        }
+    })
+}
+
+async function getStoreByUsername(username: string){
+    return prisma.store.findFirst({
+        where: {
+            username
         }
     })
 }

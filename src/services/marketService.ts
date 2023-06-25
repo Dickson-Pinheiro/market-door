@@ -25,10 +25,11 @@ async function signinMarket(email: string, password: string) {
     try {
         const userWithEmail = await marketRepository.getByEmal(email)
         if (!userWithEmail) {
-            throw notFoundError(['user not found.'])
+            throw unauthorizedError(['Unauthorized.'])
         }
     
-        const confirmPassword = bcrypt.compare(password, userWithEmail.password)
+        const confirmPassword = await bcrypt.compare(password, userWithEmail.password)
+        console.log(confirmPassword)
         if(!confirmPassword){
             throw unauthorizedError(['Unauthorized.'])
         }

@@ -11,7 +11,7 @@ export default function validate(schema: ObjectSchema, type: 'body' | 'params') 
       if (!error) {
         next();
       } else {
-        res.status(404).send(badRequestError(error.details.map((d) => d.message)));
+        res.status(400).send(badRequestError(error.details.map((d) => d.message)));
       }
     };
   }
