@@ -28,6 +28,7 @@ const acceptedErrors = {
 
 export function ErrorHandling(err: ErrorResponse, req: Request, res: Response, next: NextFunction){
     try {
+        console.log(err)
         acceptedErrors[err.name](err, res)
     } catch (error) {
         acceptedErrors['internalServerError'](error, res)

@@ -50,7 +50,7 @@ async function createStore(name: string, username: string, password: string, mar
     try {
         const storeByUsername = await storeRepository.findByUsername(username)
         if(storeByUsername){
-            return forbiddenError(['user already exist'])
+            throw forbiddenError(['user already exist'])
         }
         
         const hashedPassword = bcrypt.hashSync(password, 10)

@@ -26,6 +26,13 @@ async function getProducts(store_id: number){
         where: {
             store_id
         },
+        include: {
+            category: {
+                select: {
+                    category: true
+                }
+            }
+        }
     })
 }
 

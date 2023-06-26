@@ -10,7 +10,6 @@ async function getStock(store_id: number, productId: number){
         if(stock.store_id !== store_id){
             throw forbiddenError(['Não autorizado'])
         }
-
     } catch (error) {
         throw error
     }
