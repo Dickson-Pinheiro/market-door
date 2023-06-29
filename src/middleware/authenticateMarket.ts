@@ -8,13 +8,14 @@ export async function AuthenticateMarket(req: AuthenticatedRequest, res: Respons
 
     if (!token) return res.status(401).send(unauthorizedError())
 
-    const { market_id } = jwt.verify(token, process.env.JWT_SECRET_KEY) as JWTPayload
-
-    if(!market_id) return res.status(401).send(unauthorizedError())
-
-    req.market_id = market_id
-
-    next()
+    try {
+        const { market_id } = jwt.verify(token, process.env.JWT_SECRET_KEY) as JWTPayload
+        if (!market_id) return res.status(401).send(unauthorizedError())
+        req.market_id = market_id
+        next()
+    } catch (error) {
+        return res.status(401).send(unauthorizedError())
+    }
 }
 
 function unauthorizedError() {
