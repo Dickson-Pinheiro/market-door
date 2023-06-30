@@ -21,8 +21,10 @@ async function updateProduct(product: Product, productId: number){
     })
 }
 
-async function getProducts(store_id: number){
+async function getProducts(store_id: number, skip: number){
     return prisma.product.findMany({
+        take: 12,
+        skip,
         where: {
             store_id
         },
@@ -32,6 +34,17 @@ async function getProducts(store_id: number){
                     category: true
                 }
             }
+        }
+    })
+}
+
+async function countProducts(store_id: number){
+    return prisma.product.aggregate({
+        where: {
+            store_id,
+        },
+        _count: {
+            store_id: true
         }
     })
 }
@@ -81,7 +94,8 @@ const productRepository = {
     deleteProduct,
     activeProduct,
     deactiveProduct,
-    updateProduct
+    updateProduct,
+    countProducts
 }
 
 export default productRepository

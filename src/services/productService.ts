@@ -30,10 +30,12 @@ async function updateProduct(product: Product, store_id: number, productId: numb
     }
 }
 
-async function getProducts(store_id: number) {
+async function getProducts(store_id: number, page: number) {
+    const skip = (page - 1) * 12
     try {
-        const products = await productRepository.getProducts(store_id)
-        return products
+        const products = await productRepository.getProducts(store_id, skip)
+        const countProducts = await productRepository.countProducts(store_id)
+        return {products, count: countProducts._count}
     } catch (error) {
         throw error
     }
